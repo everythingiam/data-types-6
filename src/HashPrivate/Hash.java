@@ -7,59 +7,54 @@ public class Hash {
         set = new Chelobek[number];
     }
     private int hashCount(Chelobek chel, int value){
-//        int hash = 0;
         for (int i = 0; i < chel.name.length; i++) {
             value += (int) chel.name[i];
         }
-        return value % chel.name.length;
-        /*
-        1. в цикле поэлементно складываю их хеш коды (там функция (int))
-         */
+        return value % set.length;
     }
-    private char[] copyArray(char[] array){
-        char[] copy = new char[array.length];
-        for (int i = 0; i < array.length; i++) {
-            copy[i] = array[i];
-        }
-        return copy;
-    }
+    //должно быть две функции: хеш функция и хеш значение
     public void INSERT(Chelobek chel){
-        int hash = hashCount(chel, 0);
-        int i = 0;
+        if (MEMBER(chel)) return;
 
-        while (set[hash] != null){
-            i++;
-            hash = hashCount(chel, i);
+        int code = hashCount(chel, 0);
+
+        for (int i = 1; i < set.length; i++) {
+            if (set[code] == null){
+                break;
+            }
+            code = hashCount(chel, i);
         }
 
-        set[hash] = chel;
+        set[code] = chel;
     }
+    //нужно сделать поиск, котрый вызыывается и в мембере и в делите
     public boolean MEMBER(Chelobek chel){
-        for (int i = 0; i < set.length; i++) {
-            if (set[hashCount(chel, i)] != null && chel.compareArrays(set[hashCount(chel, i)])){
+        int code = hashCount(chel, 0);
+
+        for (int i = 1; i < set.length; i++) {
+            if (set[code] != null && chel.compareArrays(set[code])){
                 return true;
             }
+
+            code = hashCount(chel, i);
         }
+
         return false;
     }
     public void printSet(){
         for (int i = 0; i < set.length; i++) {
-            if (set[i] == null) System.out.println("null");
+            if (set[i] == null) System.out.println("NULL");
             else set[i].printChelobek();
         }
     }
-    private int searchHashCount(int code){ //возможно нужно создать
-        for (int i = 0; i < set.length; i++) {
-//            if ()
-        }
-        return 0;
-    }
     public void DELETE(Chelobek chel){
-        for (int i = 0; i < set.length; i++) {
-            int code = hashCount(chel, i);
+        int code = hashCount(chel, 0);
+
+        for (int i = 1; i < set.length; i++) {
             if (set[code] != null && chel.compareArrays(set[code])){
-                set[code] = null;
+                set[code] = new Chelobek(" ");
             }
+            code = hashCount(chel, i);
         }
     }
     public void MAKENULL(){
@@ -67,10 +62,13 @@ public class Hash {
             set[i] = null;
         }
     }
+
 }
+
 /*
 Вопросы:
 1. Допустим я задаю хешсет, размером 10. Могу ли я туда пихать больше, чем 10 человек?
 2. Если да, то что происходит при открытом хешировании, когда происходит коллизия?
 3. чё за Е?
+4. в конструкторе делить на 10?
  */

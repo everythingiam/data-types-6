@@ -1,20 +1,22 @@
-package HashPrivate;
+package HashPublic;
 
-public class Chelobek{
-    char[] name;
-
+public class Chelobek {
+    char[]  name;
+    Chelobek next;
     public Chelobek(String nameS){
         char[] nameC = nameS.toCharArray();
         name = new char[nameC.length];
         for (int i = 0; i < nameC.length; i++) {
             name[i] = nameC[i];
         }
+        next = null;
     }
+
     public void printChelobek(){
         for (int i = 0; i < name.length; i++) {
             System.out.print(name[i]);
         }
-        System.out.println();
+//        System.out.println();
     }
 
     public boolean compareArrays(Chelobek a){
@@ -26,5 +28,4 @@ public class Chelobek{
         }
         return true;
     }
-
 }
