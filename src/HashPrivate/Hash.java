@@ -1,61 +1,75 @@
 package HashPrivate;
 
-public class Hash {
+public class Hash { //хеш-сет ТОЛЬКо на массиве
     private Chelobek[] set;
 
     public Hash(int number){
         set = new Chelobek[number];
     }
-    private int hashCount(Chelobek chel, int value){
-        for (int i = 0; i < chel.name.length; i++) {
-            value += (int) chel.name[i];
-        }
-        return value % set.length;
+    private int hashFunc(int hash, int i){ //считает хеш-функцию
+        return (hash + i) % set.length;
     }
-    //должно быть две функции: хеш функция и хеш значение
-    public void INSERT(Chelobek chel){
-        if (MEMBER(chel)) return;
 
-        int code = hashCount(chel, 0);
+    private int hashCount(Chelobek chel){ //считает сумму интов букв имени
+        int result = 0;
+
+        for (int i = 0; i < chel.name.length; i++) {
+            result += (int) chel.name[i];
+        }
+        return result;
+    }
+    public void INSERT(Chelobek chel){ //вставка в сет
+        int count = hashCount(chel);
+        int func = hashFunc(count, 0);
 
         for (int i = 1; i < set.length; i++) {
-            if (set[code] == null){
+            if (set[func] == null){
                 break;
             }
-            code = hashCount(chel, i);
+            if (set[func].compareArrays(chel)){
+                return;
+            }
+            func = hashFunc(count, i);
         }
 
-        set[code] = chel;
+
+        set[func] = chel;
     }
     //нужно сделать поиск, котрый вызыывается и в мембере и в делите
     public boolean MEMBER(Chelobek chel){
-        int code = hashCount(chel, 0);
-
-        for (int i = 1; i < set.length; i++) {
-            if (set[code] != null && chel.compareArrays(set[code])){
-                return true;
-            }
-
-            code = hashCount(chel, i);
+        int result = find(chel);
+        if (result != -1){
+            return true;
         }
-
         return false;
     }
     public void printSet(){
         for (int i = 0; i < set.length; i++) {
-            if (set[i] == null) System.out.println("NULL");
-            else set[i].printChelobek();
+            if (set[i] == null || set[i].name[0] == '\0') continue;
+            set[i].printChelobek();
         }
     }
     public void DELETE(Chelobek chel){
-        int code = hashCount(chel, 0);
+        int result = find(chel);
 
-        for (int i = 1; i < set.length; i++) {
-            if (set[code] != null && chel.compareArrays(set[code])){
-                set[code] = new Chelobek(" ");
-            }
-            code = hashCount(chel, i);
+        if (result != -1){
+            set[result].name[0] = '\0';
         }
+    }
+
+    private int find(Chelobek chel){
+        int count = hashCount(chel);
+        int func = hashFunc(count, 0);
+        for (int i = 0; i < set.length; i++) {
+            if (set[func] != null && set[func].name[0] == '\0'){
+                return -1; //если попали в удалённый
+            }
+
+            if (set[func] != null && set[func].compareArrays(chel)){
+                return func; //нашли
+            }
+        }
+        return -1; //прошли через весь сет и всё равно не нашли
     }
     public void MAKENULL(){
         for (int i = 0; i < set.length; i++) {

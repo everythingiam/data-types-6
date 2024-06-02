@@ -13,10 +13,7 @@ public class Chelobek {
     }
 
     public void printChelobek(){
-        for (int i = 0; i < name.length; i++) {
-            System.out.print(name[i]);
-        }
-//        System.out.println();
+        System.out.print(new String(name));
     }
 
     public boolean compareArrays(Chelobek a){

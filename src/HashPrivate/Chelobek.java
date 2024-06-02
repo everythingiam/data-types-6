@@ -10,11 +10,9 @@ public class Chelobek{
             name[i] = nameC[i];
         }
     }
+
     public void printChelobek(){
-        for (int i = 0; i < name.length; i++) {
-            System.out.print(name[i]);
-        }
-        System.out.println();
+        System.out.println(new String(name));
     }
 
     public boolean compareArrays(Chelobek a){
