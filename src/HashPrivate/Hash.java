@@ -36,20 +36,20 @@ public class Hash { //хеш-сет ТОЛЬКо на массиве
         set[func] = chel;
     }
     //нужно сделать поиск, котрый вызыывается и в мембере и в делите
-    public boolean MEMBER(Chelobek chel){
+    public boolean MEMBER(Chelobek chel){ //поиск чела
         int result = find(chel);
         if (result != -1){
             return true;
         }
         return false;
     }
-    public void printSet(){
+    public void printSet(){ //ппечать сета
         for (int i = 0; i < set.length; i++) {
             if (set[i] == null || set[i].name[0] == '\0') continue;
             set[i].printChelobek();
         }
     }
-    public void DELETE(Chelobek chel){
+    public void DELETE(Chelobek chel){ //удаление чела
         int result = find(chel);
 
         if (result != -1){
@@ -57,7 +57,7 @@ public class Hash { //хеш-сет ТОЛЬКо на массиве
         }
     }
 
-    private int find(Chelobek chel){
+    private int find(Chelobek chel){ //поиск хеша чела либо сообщение, что поиск провалился
         int count = hashCount(chel);
         int func = hashFunc(count, 0);
         for (int i = 0; i < set.length; i++) {
@@ -71,7 +71,7 @@ public class Hash { //хеш-сет ТОЛЬКо на массиве
         }
         return -1; //прошли через весь сет и всё равно не нашли
     }
-    public void MAKENULL(){
+    public void MAKENULL(){ //опустощение сета
         for (int i = 0; i < set.length; i++) {
             set[i] = null;
         }

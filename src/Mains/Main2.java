@@ -1,7 +1,7 @@
 package Mains;
 import java.util.Scanner;
-import HashPrivate.*;
-//import HashPublic.*;
+//import HashPrivate.*;
+import HashPublic.*;
 
 public class Main2 {
     public static void main(String[] args) {
@@ -54,17 +54,18 @@ public class Main2 {
 //        Hash goodgirls = new Hash(10);
 //        Hash badgirls = new Hash(10);
 //        Chelobek kristina = new Chelobek("kristina");
-//        Chelobek alina = new Chelobek("alina");
+        Chelobek alina = new Chelobek("alina");
 //        alina.printChelobek();
 //        goodguys.INSERT(alina);
 //        goodguys.printSet();
-//        Chelobek sasha = new Chelobek("sasha");
-//        Chelobek assha = new Chelobek("assha");
+        Chelobek sasha = new Chelobek("sasha");
+        Chelobek assha = new Chelobek("assha");
 //        Chelobek sasah = new Chelobek("sasah");
 //
 //        goodgirls.INSERT(alina);
-//        goodgirls.INSERT(sasah);
+//        goodgirls.INSERT(assha);
 //        goodgirls.INSERT(sasha);
+//        goodgirls.DELETE(sasha);
 //        goodgirls.printSet();
 //проверять каждый раз, есть ли такое значение. если есть - не вставлять.
 //нужно вставлять только в то место, где НИКОГДА ничего не было

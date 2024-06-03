@@ -1,12 +1,12 @@
 package HashPublic;
 
-public class Hash {
+public class Hash { //хеш на массиве И СВЯЗНЫХ СПИСУАХ
     private Chelobek[] set;
 
     public Hash(int number){
-        set = new Chelobek[number/10];
+        set = new Chelobek[number];
     }
-    private int hashCount(Chelobek chel){
+    private int hashCount(Chelobek chel){ //считает хеш сразу
         int value = 0;
 
         for (int i = 0; i < chel.name.length; i++) {
@@ -15,52 +15,74 @@ public class Hash {
 
         return value % set.length;
     }
+    private Chelobek previous(Chelobek chel, int index){ //находит предыдущий элямент
+                                                        // в связном списке, в нужной ячейке массива
+        Chelobek prev = null;
+        Chelobek current = set[index];
 
+        while (current != null) {
+            if (current.compareArrays(chel)){
+                return prev;
+            }
+            prev = current;
+            current = current.next;
+        }
+        return null;
+    }
     public void INSERT(Chelobek chel){
         int code = hashCount(chel);
 
         if (set[code] == null){
-            set[code] = new Chelobek(chel.toString());
+            set[code] = chel;
         }
-        else {
+        else{
             Chelobek current = set[code];
-            while (current.next != null) { //предыдщуий проверять
+            Chelobek prev = null;
+            while (current != null){
+                if (current.compareArrays(chel)) return;
+                prev = current;
                 current = current.next;
             }
-            current.next = new Chelobek(chel.toString());
+
+            prev.next = chel;
         }
+
     }
     public boolean MEMBER(Chelobek chel) {
         int code = hashCount(chel);
+
         if (set[code] == null) {
             return false;
         }
+
         Chelobek current = set[code];
+
         do {
             if (current.compareArrays(chel)) {
                 return true;
             }
             current = current.next;
-        }while (current.next != null);
+        } while (current != null);
         return false;
     }
 
-//    public int find(Chelobek chel){
-//        int count = hashCount(chel);
-//    }
-    public void printOk(){
+
+    public void printSet(){
         for (int i = 0; i < set.length; i++) {
             if (set[i] == null) continue;
 
-            Chelobek current = set[i];
-            while (current != null) {
-                current.printChelobek();
-                if (current.next != null) {
-                    System.out.print(" -> ");
+            set[i].printChelobek();
+
+            if (set[i].next != null){
+                Chelobek current = set[i];
+                while (current.next != null){
+                    System.out.print(" --> ");
+                    current.next.printChelobek();
+                    current = current.next;
                 }
-                current = current.next;
             }
             System.out.println();
+
         }
     }
     public void DELETE(Chelobek chel) {
@@ -68,13 +90,16 @@ public class Hash {
         if (set[code] == null){
             return;
         }
-        Chelobek current = set[code];
-        do {
-            if (current.compareArrays(chel)){
-                current.next = current.next.next;
-            }
-            current = current.next;
-        } while (current.next != null);
+        if (set[code].compareArrays(chel)){
+            set[code] = set[code].next;
+            return;
+        }
+
+        Chelobek prev = previous(chel, code);
+        if (prev == null){
+            return;
+        }
+        prev.next = prev.next.next;
     }
 
     public void MAKENULL(){
@@ -82,5 +107,6 @@ public class Hash {
             set[i] = null;
         }
     }
+
 
 }
